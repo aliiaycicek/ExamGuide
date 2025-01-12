@@ -4,129 +4,198 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 20) {
-                    // Günlük Hedef Kartı
-                    DailyGoalCard()
+                VStack(spacing: AppTheme.padding) {
+                    // Günlük özet kartı
+                    DailySummaryCard()
                     
-                    // Son Çalışmalar
-                    RecentStudiesCard()
+                    // Hedefler kartı
+                    GoalsCard()
                     
-                    // İstatistikler
-                    StatisticsCard()
+                    // Çalışma istatistikleri
+                    StatisticsGridView()
                 }
-                .padding()
+                .padding(.horizontal)
             }
-            .navigationTitle("YKS Hazırlık")
+            .background(AppTheme.background)
+            .navigationTitle("Merhaba, Ali!")
         }
     }
 }
 
-struct DailyGoalCard: View {
+struct DailySummaryCard: View {
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Günlük Hedef")
-                .font(.headline)
-            
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
-                CircularProgressView(progress: 0.7)
-                    .frame(width: 60, height: 60)
+                Text("Bugünkü Durum")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundColor(AppTheme.textPrimary)
                 
-                VStack(alignment: .leading) {
-                    Text("4 saat 30 dakika")
-                        .font(.title3)
-                        .bold()
-                    Text("Günlük hedefinizin %70'ini tamamladınız")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-            }
-        }
-        .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(radius: 5)
-    }
-}
-
-struct RecentStudiesCard: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Son Çalışmalar")
-                .font(.headline)
-            
-            ForEach(0..<3) { _ in
-                HStack {
-                    Image(systemName: "book.fill")
-                        .foregroundColor(.blue)
-                    Text("Matematik - Türev")
-                    Spacer()
-                    Text("45 dk")
-                        .foregroundColor(.gray)
-                }
-            }
-        }
-        .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(radius: 5)
-    }
-}
-
-struct StatisticsCard: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("İstatistikler")
-                .font(.headline)
-            
-            HStack {
-                StatItem(title: "Toplam Süre", value: "120 saat")
                 Spacer()
-                StatItem(title: "Çözülen Soru", value: "1500")
+                
+                Image(systemName: "calendar")
+                    .foregroundColor(AppTheme.accent)
             }
+            
+            HStack(spacing: 20) {
+                VStack {
+                    Text("4s 30dk")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(AppTheme.primary)
+                    Text("Çalışma")
+                        .font(.caption)
+                        .foregroundColor(AppTheme.textSecondary)
+                }
+                
+                VStack {
+                    Text("250")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(AppTheme.primary)
+                    Text("Soru")
+                        .font(.caption)
+                        .foregroundColor(AppTheme.textSecondary)
+                }
+                
+                VStack {
+                    Text("%85")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(AppTheme.primary)
+                    Text("Başarı")
+                        .font(.caption)
+                        .foregroundColor(AppTheme.textSecondary)
+                }
+            }
+            .frame(maxWidth: .infinity)
         }
-        .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(radius: 5)
+        .applyCardStyle()
     }
 }
 
-struct StatItem: View {
+struct GoalsCard: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Hedeflerim")
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundColor(AppTheme.textPrimary)
+            
+            VStack(spacing: 16) {
+                GoalProgressView(
+                    title: "Günlük Çalışma",
+                    current: 4.5,
+                    target: 6,
+                    unit: "saat"
+                )
+                
+                GoalProgressView(
+                    title: "Soru Çözümü",
+                    current: 250,
+                    target: 300,
+                    unit: "soru"
+                )
+            }
+        }
+        .applyCardStyle()
+    }
+}
+
+struct GoalProgressView: View {
+    let title: String
+    let current: Double
+    let target: Double
+    let unit: String
+    
+    var progress: Double {
+        min(current / target, 1.0)
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(title)
+                    .foregroundColor(AppTheme.textPrimary)
+                Spacer()
+                Text("\(Int(current))/\(Int(target)) \(unit)")
+                    .foregroundColor(AppTheme.textSecondary)
+            }
+            
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(AppTheme.secondary.opacity(0.2))
+                    
+                    Rectangle()
+                        .fill(AppTheme.primaryGradient)
+                        .frame(width: geometry.size.width * progress)
+                }
+            }
+            .frame(height: 8)
+            .cornerRadius(4)
+        }
+    }
+}
+
+struct StatisticsGridView: View {
+    var body: some View {
+        LazyVGrid(columns: [
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ], spacing: 16) {
+            StatCard(
+                title: "Toplam Çalışma",
+                value: "120 saat",
+                icon: "clock.fill"
+            )
+            
+            StatCard(
+                title: "Çözülen Soru",
+                value: "1500",
+                icon: "checkmark.circle.fill"
+            )
+            
+            StatCard(
+                title: "Başarı Oranı",
+                value: "%85",
+                icon: "chart.line.uptrend.xyaxis"
+            )
+            
+            StatCard(
+                title: "Deneme Sınavı",
+                value: "12",
+                icon: "doc.fill"
+            )
+        }
+    }
+}
+
+struct StatCard: View {
     let title: String
     let value: String
+    let icon: String
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.title2)
+                .foregroundColor(AppTheme.primary)
+            
+            Text(value)
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundColor(AppTheme.textPrimary)
+            
             Text(title)
                 .font(.caption)
-                .foregroundColor(.gray)
-            Text(value)
-                .font(.headline)
+                .foregroundColor(AppTheme.textSecondary)
         }
-    }
-}
-
-struct CircularProgressView: View {
-    let progress: Double
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .stroke(lineWidth: 8)
-                .opacity(0.3)
-                .foregroundColor(.blue)
-            
-            Circle()
-                .trim(from: 0.0, to: CGFloat(min(progress, 1.0)))
-                .stroke(style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round))
-                .foregroundColor(.blue)
-                .rotationEffect(Angle(degrees: 270.0))
-                .animation(.linear, value: progress)
-            
-            Text(String(format: "%.0f%%", min(progress, 1.0) * 100.0))
-                .font(.caption)
-                .bold()
-        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(AppTheme.cardBackground)
+        .cornerRadius(AppTheme.cornerRadius)
+        .shadow(color: AppTheme.primary.opacity(0.1), radius: AppTheme.shadowRadius, x: 0, y: 4)
     }
 }
 
@@ -135,3 +204,4 @@ struct HomeView_Previews: PreviewProvider {
         HomeView()
     }
 } 
+

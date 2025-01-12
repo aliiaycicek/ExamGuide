@@ -9,15 +9,15 @@ struct ContentView: View {
                     Text("Ana Sayfa")
                 }
             
-            ExamView()
+            ResourceView()
                 .tabItem {
-                    Image(systemName: "doc.text.fill")
-                    Text("Sınavlar")
+                    Image(systemName: "book.fill")
+                    Text("Kaynaklar")
                 }
             
             StudyView()
                 .tabItem {
-                    Image(systemName: "book.fill")
+                    Image(systemName: "pencil")
                     Text("Çalışma")
                 }
             
@@ -27,7 +27,8 @@ struct ContentView: View {
                     Text("Profil")
                 }
         }
-        .accentColor(Color("AccentColor"))
+        .tint(AppTheme.primary)
+        .background(AppTheme.background)
     }
 }
 
