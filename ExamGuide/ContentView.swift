@@ -27,8 +27,15 @@ struct ContentView: View {
                     Text("Profil")
                 }
         }
-        .tint(AppTheme.primary)
-        .background(AppTheme.background)
+        .tint(AppTheme.accent)
+        .onAppear {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor(AppTheme.background)
+            
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
     }
 }
 

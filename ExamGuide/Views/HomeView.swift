@@ -5,19 +5,15 @@ struct HomeView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: AppTheme.padding) {
-                    // Günlük özet kartı
+                 
                     DailySummaryCard()
-                    
-                    // Hedefler kartı
                     GoalsCard()
-                    
-                    // Çalışma istatistikleri
                     StatisticsGridView()
                 }
                 .padding(.horizontal)
             }
             .background(AppTheme.background)
-            .navigationTitle("Merhaba, Ali!")
+            .customNavigationTitle("Merhaba, Ali!", color: AppTheme.navigationTitle)
         }
     }
 }

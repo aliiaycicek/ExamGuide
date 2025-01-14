@@ -8,10 +8,10 @@ struct ResourceView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: AppTheme.padding) {
-                    // Motivasyon kartı
+                
                     MotivationCard()
                     
-                    // Ders ilerleme kartları
+                
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Ders İlerlemen")
                             .font(.title2)
@@ -40,7 +40,7 @@ struct ResourceView: View {
                 }
             }
             .background(AppTheme.background)
-            .navigationTitle("Kaynak Önerileri")
+            .customNavigationTitle("Kaynaklar", color: AppTheme.navigationTitle)
             .sheet(isPresented: $showingProgressInput) {
                 ProgressInputView(viewModel: viewModel)
             }

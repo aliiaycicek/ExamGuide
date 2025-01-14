@@ -22,10 +22,10 @@ struct ExamView: View {
                     }
                 }
             }
-            .navigationTitle("Sınavlar")
+            .customNavigationTitle("Sınavlar", color: AppTheme.navigationTitle)
             .toolbar {
                 Button(action: {
-                    // Yeni deneme sınavı ekle
+                  
                 }) {
                     Image(systemName: "plus")
                 }

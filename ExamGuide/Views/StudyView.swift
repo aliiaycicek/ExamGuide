@@ -43,7 +43,7 @@ struct StudyView: View {
                             .padding(.horizontal)
                         }
                         
-                        // Konular listesi
+                      
                         VStack(spacing: 16) {
                             ForEach(0..<5) { _ in
                                 NavigationLink(destination: TopicDetailView()) {
@@ -55,10 +55,10 @@ struct StudyView: View {
                     }
                 }
             }
-            .navigationTitle("Çalışma")
+            .customNavigationTitle("Çalışma", color: AppTheme.navigationTitle)
             .toolbar {
                 Button(action: {
-                    // Yeni çalışma ekle
+              
                 }) {
                     Image(systemName: "plus")
                         .foregroundColor(AppTheme.accent)

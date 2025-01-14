@@ -179,7 +179,7 @@ struct SettingsView: View {
                         .background(AppTheme.cardGradient)
                         .cornerRadius(AppTheme.cornerRadius)
                         
-                        // Hakkında
+                    
                         VStack(alignment: .leading, spacing: 16) {
                             Text("Hakkında")
                                 .font(.title3)
