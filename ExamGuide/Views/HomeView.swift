@@ -35,7 +35,7 @@ struct DailySummaryCard: View {
             
             HStack(spacing: 20) {
                 VStack {
-                    Text("4s 30dk")
+                    Text("4s")
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(AppTheme.primary)

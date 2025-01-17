@@ -15,7 +15,6 @@ class GeminiService {
         Bu öğrenci için detaylı bir analiz yap ve hangi tür kaynakları kullanması gerektiğini öner.
         """
         
-        // Gemini API çağrısı yapılacak
         return try await makeGeminiRequest(prompt: prompt)
     }
     
